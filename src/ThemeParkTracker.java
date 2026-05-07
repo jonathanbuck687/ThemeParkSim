@@ -8,8 +8,9 @@ public class ThemeParkTracker {
         rides = new ArrayList<>();
     }
 
-    public void addRide(Ride ride) {
-        rides.set(rides.size(), ride);
+    public  void addRide(Ride ride) {
+        //3. can't access rides.size()
+        rides.add(ride);
     }
 
     public Ride getRide(int index) {
@@ -22,7 +23,8 @@ public class ThemeParkTracker {
 
     public void removeClosedRides() {
         for (int i = 0; i < rides.size(); i++) {
-            if (rides.get(i).getStatus() == "closed") {
+            //4. == should be .equals()
+            if (rides.get(i).getStatus().equals("closed")) {
                 rides.remove(i);
             }
         }
@@ -30,20 +32,24 @@ public class ThemeParkTracker {
 
     public void printRide(String name) {
         for (Ride ride : rides) {
-            if (ride.getName() == name) {
-                System.out.println(ride);
+            //1. == should be.equals
+            //5. ride should be ride .toString()
+            if (ride.getName().equals(name)) {
+                System.out.println(ride.toString());
             }
         }
     }
 
     public void removeRide(int index) {
-        if (index >= 0 && index <= rides.size()) {
+        //6. index cant be equal to rides.size()
+        if (index >= 0 && index < rides.size()) {
             rides.remove(index);
         }
     }
 
     public void printAllRides() {
-        for (int i = 0; i < rides.size() - 1; i++) {
+        //7. -1 wouldn't get all rides
+        for (int i = 0; i < rides.size(); i++) {
             System.out.println(rides.get(i));
         }
     }
@@ -56,27 +62,29 @@ public class ThemeParkTracker {
 
                 if (rides.get(i).getWaitTime() > rides.get(j).getWaitTime()) {
 
-                    int temp = rides.get(i).getWaitTime();
+                    //8. swapped wait times instead of rides
+                    Ride temp = rides.get(i);
 
-                    rides.get(i).setWaitTime(rides.get(j).getWaitTime());
+                    rides.set(i, rides.get(j));
 
-                    rides.get(j).setWaitTime(temp);
+                    rides.set(j, temp);
                 }
             }
         }
     }
 
     public String findRideStatus(String rideName) {
-
         for (Ride ride : rides) {
+            //2. == should be .equals
 
-            if (ride.getName() == rideName) {
+            //9. Onle would return the status for the first one
+            if (ride.getName().equals(rideName)) {
+
                 return ride.getStatus();
-            } else {
-                return "Ride not found";
             }
-        }
 
-        return "No rides in tracker";
+        }
+            return "Ride not found";
+
     }
 }
